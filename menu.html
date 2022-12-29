@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        :root {
+            --color-primary: #f3f4f6;
+            --color-secondary: #e9ecf3;
+            --color-tertiary: #e5e7eb;
+            --color-quaternary: #d1d5db;
+            --color-quinary: #9ca3af;
+            --color-senary: #6b7280;
+            --color-septenary: #4b5563;
+            --color-octonary: #374151;
+            --color-nonary: #1f2937;
+            --color-denary: #111827;
+
+            --color-gray-50: hsl(205, 16%, 97%);
+            --color-gray-100: hsl(210, 16%, 93%);
+            --color-gray-200: hsl(216, 12%, 84%);
+            --color-gray-300: hsl(218, 11%, 65%);
+            --color-gray-400: hsl(220, 9%, 46%);
+            --color-gray-500: hsl(215, 14%, 34%);
+            --color-gray-600: hsl(217, 19%, 27%);
+            --color-gray-700: hsl(215, 28%, 17%);
+            --color-gray-800: hsl(221, 39%, 11%);
+            --color-gray-900: hsl(224, 38%, 6%);
+
+            --border: 1px solid rgb(233, 236, 239);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        p,
+        figure,
+        blockquote,
+        dl,
+        dd {
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            scroll-behavior: smooth;
+            text-rendering: optimizeSpeed;
+            line-height: 1.5;
+            color: var(--color-gray-900);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+                'Helvetica Neue', sans-serif;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-template-columns: 1fr min(99ch, 100%) 1fr;
+        }
+
+        .wrapper>* {
+            grid-column: 2;
+        }
+
+        .full-bleed {
+            width: 100%;
+            grid-column: 1 / 4;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .open {
+            padding: 3px;
+            border-radius: 4px;
+            border: var(--border);
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            border: var(--border);
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            font-size: 1rem;
+        }
+
+        button[data-expanded='true'] span.icon {
+            transform: rotate(180deg);
+        }
+
+        button[data-expanded='true'] {
+            background-color: var(--color-gray-50);
+        }
+
+        button span.icon {
+            transition: transform 0.2s ease;
+            margin-left: 3rem;
+        }
+
+        div[role='menu-container'] {
+            position: relative;
+        }
+
+        div[role='menu'] {
+            border-radius: 4px;
+            overflow: hidden;
+            padding: 1rem;
+            background: rgb(255, 255, 255);
+            display: flex;
+            flex-direction: column;
+            box-shadow: rgb(0 0 0 / 30%) 0px 19px 38px,
+                rgb(0 0 0 / 22%) 0px 15px 12px;
+            position: absolute;
+            z-index: 2000;
+            width: max-content;
+            max-width: 400px;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.75);
+            transition: all 0.25s ease 0s;
+        }
+
+        div.open[role='menu'] {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <div role="menu-container">
+                <button data-expanded="false" data-trigger-target="test-menu" data-trigger-target-location="right">
+                    <span>Menu Trigger</span>
+                </button>
+                <div id="test-menu" role="menu">
+                    <h4>Hello Meny</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Nam quod, sit debitis error qui temporibus
+                        quae corrupti quasi recusandae, neque magnam odit
+                        nisi molestias doloribus ad optio perferendis
+                        repellat. Neque.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const triggers = document.querySelectorAll('[data-trigger-target]');
+        const menus = document.querySelectorAll('[role="menu"]');
+
+        triggers.forEach((trigger) => {
+            trigger.addEventListener('click', () => {
+                const target = document.getElementById(
+                    trigger.dataset.triggerTarget
+                );
+                const top = trigger.offsetHeight + 5;
+                const bottom = trigger.offsetHeight + 5;
+                const left = target.offsetWidth + 5;
+                const right = target.offsetWidth + 5;
+
+                const location = trigger.dataset.triggerTargetLocation;
+                const expanded = trigger.dataset.expanded === 'true';
+                switch (location) {
+                    case 'bottom':
+                        target.style.top = top + 'px';
+                        break;
+                    case 'top':
+                        console.log('top');
+                        console.log(target);
+                        target.style.bottom = bottom + 'px';
+                        break;
+                    case 'left':
+                        target.style.left = '-' + left + 'px';
+                        target.style.top = '0px';
+                        break;
+                    case 'right':
+                        target.style.right = '-' + right + 'px';
+                        target.style.top = '0px';
+                        break;
+
+                    default:
+                        target.style.top = top + 'px';
+                        break;
+                }
+
+                trigger.dataset.expanded = !expanded;
+                target.classList.toggle('open');
+                // target.style.top = `${top}px`;
+            });
+        });
+
+        // Close menu when clicking outside of it
+    </script>
+</body>
+
+</html>
