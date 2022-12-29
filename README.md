@@ -20,7 +20,7 @@ This project was built with Vanilla JS and CSS
 ### About the author
 
 ### [Tedane Blake](https://tedtalksbits.github.io/tedaneblakedev/#top)
-[LinkedIn](https://www.linkedin.com/in/tedane-blake-5b1b3b1b3/)
+[LinkedIn](https://www.linkedin.com/in/tedaneblake/)
 [GitHub](https://www.github.com/tedtalksbits)
 
 
